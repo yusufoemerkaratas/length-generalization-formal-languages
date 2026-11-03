@@ -1,0 +1,25 @@
+language: anbn
+output_dir: results/anbn
+seeds: [0, 1, 2, 3, 4]
+
+data:
+  train_range: [1, 40]          # odd lengths are skipped where they have no positives
+  heldout_lengths: [12, 24, 36] # removed from train and val, tested separately
+  train_size: 20000
+  val_size: 2000
+  test_size: 1000               # per test bin
+  test_bins: [[41, 80], [81, 120], [121, 160], [161, 200]]
+  test_seed: 1000               # test sets are the same for every seed and model
+
+training:
+  lr: 0.001
+  batch_size: 64
+  max_epochs: 30
+  patience: 5
+
+models:
+  nope_causal: {type: transformer, pe: none, causal: true}
+  sinusoidal_causal: {type: transformer, pe: sinusoidal, causal: true}
+  learned_causal: {type: transformer, pe: learned, causal: true}
+  nope_bidirectional: {type: transformer, pe: none, causal: false}
+  lstm: {type: lstm}
