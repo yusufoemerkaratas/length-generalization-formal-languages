@@ -105,8 +105,10 @@ accuracy is 1.0 or has not improved for 5 epochs. There is no
 hyperparameter search. The long test bins are never used to choose a
 model or a setting.
 
-Each model is trained with 5 seeds. Results report the mean over seeds and
-the range from the worst to the best seed.
+The configs for equal-count and a^n b^n train every model with 5 seeds.
+The configs for parity and Dyck-1 train `nope_causal`, `sinusoidal_causal`
+and `lstm` with 3 seeds. Results report the mean over seeds and the range
+from the worst to the best seed.
 
 ## Related work
 
@@ -179,7 +181,46 @@ Output files:
 
 ## Results
 
-Not yet available.
+So far only parity and Dyck-1 have been run. Equal-count and a^n b^n have
+not been run yet. The tables show accuracy on all test examples: the mean
+over 3 seeds, with the worst and the best seed in brackets. The majority
+baseline is 0.50 in every bin.
+
+**Parity**
+
+| Model | train | held out | 41-80 | 81-120 | 121-160 | 161-200 |
+|---|---|---|---|---|---|---|
+| `lstm` | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] |
+| `nope_causal` | 0.55 [0.52, 0.56] | 0.49 [0.48, 0.51] | 0.49 [0.48, 0.50] | 0.48 [0.46, 0.50] | 0.49 [0.47, 0.50] | 0.48 [0.47, 0.50] |
+| `sinusoidal_causal` | 0.59 [0.56, 0.62] | 0.52 [0.50, 0.56] | 0.49 [0.48, 0.50] | 0.51 [0.50, 0.52] | 0.49 [0.47, 0.50] | 0.50 [0.48, 0.51] |
+
+**Dyck-1**
+
+| Model | train | held out | 41-80 | 81-120 | 121-160 | 161-200 |
+|---|---|---|---|---|---|---|
+| `lstm` | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] | 0.96 [0.95, 0.97] | 0.66 [0.66, 0.67] | 0.48 [0.46, 0.51] | 0.49 [0.48, 0.50] |
+| `nope_causal` | 0.92 [0.88, 1.00] | 0.91 [0.86, 1.00] | 0.83 [0.73, 0.96] | 0.71 [0.68, 0.74] | 0.68 [0.67, 0.69] | 0.68 [0.63, 0.71] |
+| `sinusoidal_causal` | 1.00 [1.00, 1.00] | 1.00 [1.00, 1.00] | 0.73 [0.67, 0.81] | 0.71 [0.67, 0.76] | 0.55 [0.52, 0.61] | 0.63 [0.49, 0.71] |
+
+Plots: `results/parity/accuracy_vs_length.png`,
+`results/dyck1/accuracy_vs_length.png` and
+`results/dyck1/accuracy_by_kind.png`.
+
+Observations:
+
+- **Parity.** The LSTM is correct on every length up to 200. Both
+  transformers stay close to 0.5 already on the training lengths, so they
+  did not learn the rule with these settings. For them, the long bins say
+  nothing about length generalization.
+- **Dyck-1.** All three models do well on the training lengths, and all
+  become worse on longer strings. The errors are of different kinds (mean
+  over seeds, from bin 41-80 to bin 161-200):
+  - The LSTM rejects almost every long valid string: its accuracy on
+    positives falls from 0.95 to 0.01.
+  - `nope_causal` accepts most long strings with wrong counts: its accuracy
+    on count negatives falls from 0.53 to 0.18.
+- The transformer results vary a lot between seeds, and there are only 3
+  seeds. These are observations for this setup, not general claims.
 
 ## Limitations
 
