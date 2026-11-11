@@ -1,0 +1,10 @@
+model,seed,val_acc,best_epoch,epochs_run,seconds
+nope_causal,0,0.8705,4,9,193.3
+sinusoidal_causal,0,1.0,2,2,42.0
+lstm,0,1.0,1,1,8.8
+nope_causal,1,1.0,12,12,248.2
+sinusoidal_causal,1,1.0,10,10,223.2
+lstm,1,1.0,1,1,9.2
+nope_causal,2,0.893,10,15,314.9
+sinusoidal_causal,2,1.0,3,3,67.8
+lstm,2,1.0,1,1,8.4

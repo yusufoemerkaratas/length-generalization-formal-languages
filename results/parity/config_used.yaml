@@ -1,0 +1,46 @@
+data:
+  heldout_lengths:
+  - 12
+  - 24
+  - 36
+  test_bins:
+  - - 41
+    - 80
+  - - 81
+    - 120
+  - - 121
+    - 160
+  - - 161
+    - 200
+  test_seed: 1000
+  test_size: 1000
+  train_range:
+  - 1
+  - 40
+  train_size: 20000
+  val_size: 2000
+language: parity
+models:
+  lstm:
+    type: lstm
+  nope_causal:
+    causal: true
+    pe: none
+    type: transformer
+  sinusoidal_causal:
+    causal: true
+    pe: sinusoidal
+    type: transformer
+output_dir: results/parity
+seeds:
+- 0
+- 1
+- 2
+training:
+  batch_size: 64
+  lr: 0.001
+  max_epochs: 30
+  patience: 5
+versions:
+  python: 3.12.3
+  torch: 2.15.0+cpu

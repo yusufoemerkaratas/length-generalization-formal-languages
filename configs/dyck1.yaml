@@ -1,6 +1,6 @@
 language: dyck1
 output_dir: results/dyck1
-seeds: [0, 1, 2, 3, 4]
+seeds: [0, 1, 2]
 
 data:
   train_range: [1, 40]          # odd lengths are skipped where they have no positives
@@ -20,6 +20,4 @@ training:
 models:
   nope_causal: {type: transformer, pe: none, causal: true}
   sinusoidal_causal: {type: transformer, pe: sinusoidal, causal: true}
-  learned_causal: {type: transformer, pe: learned, causal: true}
-  nope_bidirectional: {type: transformer, pe: none, causal: false}
   lstm: {type: lstm}
